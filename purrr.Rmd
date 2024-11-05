@@ -8,3 +8,33 @@ date: "2024-11-05"
 library(purrr)
 ```
 
+Pre-Reading and In-Class Demo
+
+```{r}
+tmp_dat <- data.frame(
+  x = 1:5,
+  y = 6:10
+)
+
+map_dbl(.x = tmp_dat, .f = mean)
+
+tmp_dat |>
+  map_dbl(mean)
+
+x <- list(1:5, c(1:10, NA))
+map_dbl(.x = x, .f = mean, na.rm = T)
+
+unique(mtcars$cyl) 
+by_cyl <- split(mtcars, mtcars$cyl)
+length(by_cyl)
+
+by_cyl |>
+  map(.f = ~ lm(mpg ~ wt, data = .x))
+
+lm.fit <- lm(mpg ~ wt, data = .x)
+
+by_cyl |>
+  map(.f = ~ lm(mpg ~ wt, data = .x)) |>
+  coef()
+  map_dbl(2)
+```
