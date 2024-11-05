@@ -1,0 +1,10 @@
+---
+title: "Purrr"
+output: html_document
+date: "2024-11-05"
+---
+
+```{r setup, include=FALSE}
+library(purrr)
+```
+
