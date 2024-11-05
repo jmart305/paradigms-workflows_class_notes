@@ -101,3 +101,30 @@ map(by_fe, .f = ~mean(.x[,c("hp","wt","qsec")]))
 map(by_fe, .f = ~mean(c(.x$hp,.x$wt)))
 ```
 
+Part 5
+Write a function that, for each row, converts mpg to a “fuel cost” using a hypothetical rate of $3 per gallon for a 100-mile journey where “fuel cost” = (100 mile journey / mpg) * $3 per gallon
+
+Use map_dbl() to apply this transformation to the mpg column and add it as a new column called fuel_cost.
+
+Using map() with ggplot2, create a bar plot of the average fuel_cost for each cyl. For each cylinder group, plot the average values of mpg, hp, and wt.
+
+```{r}
+fuel_cost <- function(mpg) {
+    (100/mpg)*3
+}
+
+mtcars$fuel_cost <- map_dbl(mtcars$mpg, .f = fuel_cost)
+mtcars
+
+library(ggplot2)
+
+avg_fuel_cost <- mtcars %>%
+  group_by(cyl) %>%
+  summarize(avg_fuel_cost = mean(fuel_cost))
+
+ggplot(avg_fuel_cost, aes(factor(cyl), avg_fuel_cost)) +
+  geom_bar(stat="identity")
+```
+
+
+
