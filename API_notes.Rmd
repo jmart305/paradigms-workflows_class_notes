@@ -4,9 +4,117 @@ output: html_document
 date: "2024-11-07"
 ---
 
+Follow up on reflection cards:
+apply function allows you to input the margins (either row or column)
+asplit() can split by columns or rows
+
+
 ```{r}
 library(jsonlite)
 library(httr2)
 library(rvest)
+library(xml2)
 ```
+
+Reading in a JSON file:
+
+```{r}
+library(dplyr)
+owner <- "jmart305"
+github_url <- paste0("https://api.github.com/users/", owner,"/repos")
+
+jsonData <- read_json(github_url, simplifyVector = TRUE)
+glimpse(jsonData)
+```
+
+Use httr2 to make a request to GitHub API
+
+```{r}
+# Create the GET request
+request(github_url)
+
+# Make the GET request 
+response <- request(github_url) %>%
+  req_perform()
+response
+
+# resp_body_json() returns a parsed JSON file
+julia <- resp_body_json(response, simplifyVector = TRUE)
+
+# How many public repositories do I have?
+julia$full_name
+
+# What’s the most popular language?
+table(julia$language)
+
+# How many repos have open issues do I have on my repos?
+table(julia$open_issues)
+```
+
+```{r}
+html <- minimal_html("
+  <h1>This is a heading</h1>
+  <p id='first'>This is a paragraph</p>
+  <p class='important'>This is an important paragraph</p>
+")
+
+# use html_element() (or html_elements()) to extract a single (or all) elements
+html %>% html_elements("h1") # all h1 elements
+
+# try it out: retrieve the p elements
+html %>% html_elements("p") 
+
+ # all elements with the class='important'
+html %>% html_elements(".important")
+
+# all the elements with with id attribute equal to "first"
+html %>% html_elements("#first") 
+
+# STAR WARS
+  
+html <- read_html("https://rvest.tidyverse.org/articles/starwars.html")
+
+html %>% 
+  html_elements("#main h2") %>% 
+  html_text2()
+```
+
+
+IN-CLASS ACTIVITY
+
+```{r}
+html <- read_html("https://en.wikipedia.org/wiki/FIFA_Women%27s_World_Cup")
+html %>% html_table %>% 
+  .[[5]] %>% 
+  head()
+
+html %>% html_table %>% 
+  .[[9]] %>% 
+  head()
+
+html %>% html_table
+
+html %>% html_elements("p") %>% 
+  .[1:3] %>% 
+  html_text2()
+
+html %>% html_elements(".cs1 , #cite_note-1")
+
+html %>% 
+  html_elements(".mw-references-columns") %>% 
+  html_elements("li") %>% 
+  html_elements("a") %>%
+  html_attr("href") %>%
+  unique()
+
+html %>% 
+  html_elements("img") %>% 
+  html_attr("src") %>% 
+  tibble() %>% 
+  filter(grepl("FIFA|World_Cup|Logo",))
+```
+
+
+
+
 
