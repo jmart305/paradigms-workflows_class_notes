@@ -1,0 +1,12 @@
+---
+title: "APIs"
+output: html_document
+date: "2024-11-07"
+---
+
+```{r}
+library(jsonlite)
+library(httr2)
+library(rvest)
+```
+
