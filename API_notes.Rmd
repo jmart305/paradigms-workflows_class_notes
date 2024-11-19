@@ -4,10 +4,7 @@ output: html_document
 date: "2024-11-07"
 ---
 
-Follow up on reflection cards:
-apply function allows you to input the margins (either row or column)
-asplit() can split by columns or rows
-
+Follow up on reflection cards: apply function allows you to input the margins (either row or column) asplit() can split by columns or rows
 
 ```{r}
 library(jsonlite)
@@ -79,7 +76,6 @@ html %>%
   html_text2()
 ```
 
-
 IN-CLASS ACTIVITY
 
 ```{r}
@@ -113,8 +109,3 @@ html %>%
   tibble() %>% 
   filter(grepl("FIFA|World_Cup|Logo",))
 ```
-
-
-
-
-
